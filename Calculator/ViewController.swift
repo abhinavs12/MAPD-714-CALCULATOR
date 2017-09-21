@@ -21,9 +21,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func controlButton(_ sender: UIButton) {
-        
-        result.tx=sender.titleLabel!.text! + "button"
-        
+          
         
         
     }
