@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    var reset = false
     var firstNumber = ""
     var secondNumber = ""
     var op = ""
@@ -30,11 +31,12 @@ class ViewController: UIViewController {
 
     @IBAction func controlButton(_ sender: UIButton) {
           
-        if resultLabel.text=="0" || hasOp{
+        if resultLabel.text=="0" || (hasOp && secondNumber == ""){
         
         resultLabel.text = ""
         
         }
+        
         
         let text = sender.titleLabel?.text
         
@@ -47,14 +49,24 @@ class ViewController: UIViewController {
         if firstNumber == "" {
             resultLabel.text = "0"
         }
+        else{
         hasOp = true
         op = inputText
         resultLabel.text = firstNumber
-        
+        }
     case "=":
-           
+        if firstNumber == ""  {
+            resultLabel.text = "0"
+        }
+        else if secondNumber == "" && firstNumber != ""{
+                resultLabel.text = firstNumber
+        }
+        else{
        resultLabel.text = String (calculate())
-      
+             hasOp = false
+            firstNumber = resultLabel.text!
+            secondNumber = ""
+        }
     case "%":
         let number = Double(resultLabel.text!)
         let numberDivideby100 = number!/100
@@ -74,8 +86,20 @@ class ViewController: UIViewController {
 
     @IBAction func clear(_ sender: UIButton) {
         
-        if sender.isTouchInside {
+        if sender.isTouchInside && reset {
+            firstNumber = ""
+            secondNumber = ""
+            hasOp = false
             resultLabel.text = "0"
+            reset = false
+        }
+        else if sender.isTouchInside && hasOp{
+            secondNumber = ""
+            resultLabel.text = "0"
+        }
+        else if sender.isTouchInside{
+                firstNumber = ""
+                resultLabel.text = "0"
         }
     }
     
@@ -88,15 +112,19 @@ class ViewController: UIViewController {
         
         switch op {
         case "+":
+            reset = true
             return firstNumberfinal + secondNumberfinal
             
         case "-":
+            reset = true
             return firstNumberfinal-secondNumberfinal
             
         case "X":
+            reset = true
             return firstNumberfinal*secondNumberfinal
             
         case "÷":
+            reset = true
             return firstNumberfinal/secondNumberfinal
         
         default:
