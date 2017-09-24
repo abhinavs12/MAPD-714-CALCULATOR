@@ -1,11 +1,10 @@
-//
-//  ViewController.swift
-//  Calculator
-//
-//  Created by Student on 2017-09-16.
-//  Copyright © 2017 Centennial College. All rights reserved.
-//
-
+/*
+ * Name: Abhinav Sharma
+ * Date: September 24, 2017
+ * StudentID: 300975677
+ * Description: Intermediate User Interaction Demo
+ * Version: 0.3 - Added Basic Functionality
+ */
 import UIKit
 
 class ViewController: UIViewController {
