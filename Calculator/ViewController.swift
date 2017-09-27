@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-   
+   //OUTLET ========
     @IBOutlet weak var resultLabel: UILabel!
     
     override func viewDidLoad() {
@@ -17,63 +17,88 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    //VARIABLES ======
     var reset = false
     var firstNumber = ""
     var secondNumber = ""
     var op = ""
     var hasOp = false
+    var revAddition = ""
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
+    //Function Controlling all the number and operation buttons
     @IBAction func controlButton(_ sender: UIButton) {
-          
+        
+        //If Result Label has a 0 and User wants to enter the no. then Number should appear
         if resultLabel.text=="0" || (hasOp && secondNumber == ""){
         
         resultLabel.text = ""
         
         }
-        
-        
+      
         let text = sender.titleLabel?.text
         
         resultLabel.text = resultLabel.text! + text!
 
-    
+    //Switch case to decide whether user has entered a number, operation or equals.
     if let inputText = text{
     switch inputText{
     case "+","÷","X","-":
+        
+        //If user presses a operation button then 0 should appear
         if firstNumber == "" {
             resultLabel.text = "0"
         }
+            //If First number, operation and second number are taken as input then "Calculate" function should be performed.
         else{
+            if firstNumber != "" && hasOp && secondNumber != "" {
+                resultLabel.text = String (calculate())
+                firstNumber = resultLabel.text!
+                secondNumber = ""
+                
+            }
+        revAddition = firstNumber
         hasOp = true
         op = inputText
         resultLabel.text = firstNumber
         }
     case "=":
+        //If user presses a operation button then 0 should appear
         if firstNumber == ""  {
             resultLabel.text = "0"
         }
-        else if secondNumber == "" && firstNumber != ""{
+            //If User entered only First number and operation button then First Number should appear
+        else if secondNumber == "" && firstNumber != "" && hasOp == false{
                 resultLabel.text = firstNumber
         }
+            //If user enter First Number and press operation button , then Calculation should be performed only on First Number
         else{
-       resultLabel.text = String (calculate())
-             hasOp = false
+            if secondNumber == "" && firstNumber != "" && hasOp == true {
+                secondNumber = revAddition
+            }
+            resultLabel.text = String (calculate())
             firstNumber = resultLabel.text!
             secondNumber = ""
         }
-    case "%":
+    /*case "%":
+ 
+        if firstNumber == ""  {
+            resultLabel.text = "0"
+        }
+        else {
         let number = Double(resultLabel.text!)
         let numberDivideby100 = number!/100
         resultLabel.text = String(numberDivideby100)
+        }*/
     default:
+        //Storing Second Number
         if hasOp{
             secondNumber = secondNumber + inputText
-        }else{
+            
+        }
+            
+            //Storing First Number
+        else{
             firstNumber = firstNumber  + inputText
         }
        }
@@ -82,7 +107,7 @@ class ViewController: UIViewController {
     }
 
 }
-
+    //Clear everything when operation is performed
     @IBAction func clear(_ sender: UIButton) {
         
         if sender.isTouchInside && reset {
@@ -102,6 +127,7 @@ class ViewController: UIViewController {
         }
     }
     
+    //Function to calculate the two numbers
     func calculate() -> Double {
         
       
